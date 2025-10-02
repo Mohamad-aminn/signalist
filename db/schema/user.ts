@@ -3,7 +3,6 @@ import {boolean, pgTable, text, timestamp} from "drizzle-orm/pg-core";
 export const user = pgTable("user", {
     id: text("id").primaryKey(),
     name: text("name").notNull(),
-    phone: text("phone").notNull().unique(),
     email: text("email").notNull().unique(),
     emailVerified: boolean("email_verified").default(false).notNull(),
     image: text("image"),
@@ -12,6 +11,8 @@ export const user = pgTable("user", {
         .defaultNow()
         .$onUpdate(() => /* @__PURE__ */ new Date())
         .notNull(),
+    phoneNumber: text("phone_number").unique(),
+    phoneNumberVerified: boolean("phone_number_verified"),
 });
 
 export const session = pgTable("session", {
