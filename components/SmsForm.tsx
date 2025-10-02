@@ -1,28 +1,40 @@
 "use client"
 
 import {FormEvent, useState} from "react";
+import {useMutation} from "@tanstack/react-query";
+import axios from "axios";
 
 const SmsForm = () => {
     const [phone, setPhone] = useState('');
-    const [text, setText] = useState('Eternal Love!');
+    const [text, setText] = useState('سم');
 
-    const submit = async (e: FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
+    const {mutate, error, isPending, isError, data, status} = useMutation({
+        onError: (error) => {
+            console.log(error)
+        },
+        mutationFn:  async (e: FormEvent<HTMLFormElement>) => {
+            e.preventDefault();
 
-        const data = await fetch('http://localhost:3000/api/sms', {
-            method: 'POST',
-            body: JSON.stringify({phone, text}),
-            headers: {
-                'Content-Type': 'application/json',
+             const res = await axios.post('http://localhost:3000/api/sms', {phone, text});
+            console.log('4444')
+            if (res.status === 401) {
+                console.log('working')
+                throw Error(res.data)
             }
-        });
+        }
+    })
 
-        console.log(data)
+    if(isPending) return <div>Loading...</div>
 
-    }
+    if(isError) return (
+        <div>
+            <p>{error.response.data}</p>
+
+        </div>
+    )
 
     return (
-        <form onSubmit={submit}>
+        <form onSubmit={(e) => mutate(e)}>
             <div>
                 <label>phone</label>
                 <input type="text" onChange={(e) => setPhone(e.target.value)} value={phone} />
