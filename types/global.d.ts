@@ -217,6 +217,13 @@ declare global {
     };
 
     type SmsStatus = 0 | 2 | 3 | 4 | 5 | 6 | 7  | 10 | 11 | 12 | 14 | 15 | 16 | 17 | 18 | 35
+
+    type SignupSchema = {
+        name: string
+        phoneNumber: string
+        email: string
+        password: string
+    }
 }
 
 export {};

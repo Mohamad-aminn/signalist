@@ -1,5 +1,5 @@
 {
-  "id": "b792084d-0fe2-4c74-8337-60eacdaf4921",
+  "id": "dab8d145-e2bd-44f2-9c32-bedf61ae2fa4",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -210,25 +210,6 @@
           "primaryKey": false,
           "notNull": true
         },
-        "phone": {
-          "name": "phone",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "email": {
-          "name": "email",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "email_verified": {
-          "name": "email_verified",
-          "type": "boolean",
-          "primaryKey": false,
-          "notNull": true,
-          "default": false
-        },
         "image": {
           "name": "image",
           "type": "text",
@@ -248,24 +229,29 @@
           "primaryKey": false,
           "notNull": true,
           "default": "now()"
+        },
+        "phone_number": {
+          "name": "phone_number",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "phone_number_verified": {
+          "name": "phone_number_verified",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
         }
       },
       "indexes": {},
       "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {
-        "user_phone_unique": {
-          "name": "user_phone_unique",
+        "user_phone_number_unique": {
+          "name": "user_phone_number_unique",
           "nullsNotDistinct": false,
           "columns": [
-            "phone"
-          ]
-        },
-        "user_email_unique": {
-          "name": "user_email_unique",
-          "nullsNotDistinct": false,
-          "columns": [
-            "email"
+            "phone_number"
           ]
         }
       },

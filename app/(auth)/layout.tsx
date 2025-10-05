@@ -5,9 +5,15 @@ const Layout = ({children}: Readonly<{children: ReactNode}>) => {
     return (
         <section className={'auth-container'}>
             <div className={'form-container'}>
-                <Image src={'/assets/icons/logo.svg'} alt={'Logo'}
-                       quality={100} width={130} height={30}/>
-                {children}
+                <div className={'flex flex-col h-full'}>
+                    <Image src={'/assets/icons/logo.svg'} alt={'Logo'}
+                           quality={100} width={130} height={30}/>
+
+                    <div className={'form-parent'}>
+                        {children}
+                    </div>
+                </div>
+
             </div>
 
             <div className={'auth-bg'}>

@@ -1,6 +1,6 @@
 import MeliPayamak from "melipayamak"
 
-const api = new MeliPayamak(process.env.SMS_USERNAME, process.env.SMS_PASSWORD + "$d" + process.env.SMS_PASSWORD2);
+const api = new MeliPayamak(process.env.SMS_USERNAME, process.env.SMS_PASSWORD + "$" + process.env.SMS_PASSWORD2);
 
 const sms = api.sms();
 

@@ -143,23 +143,30 @@
 
 @layer utilities {
   /* added classes */
+
+  .form-btn {
+    @apply bg-gradient-to-b w-full p-4 disabled:opacity-80 rounded-lg from-[#FDD458] to-[#E8BA40] text-sm font-bold text-[#050505];
+  }
+
   .auth-container {
     @apply flex bg-[#050505] overflow-hidden;
 
     .form-container {
-      @apply px-16 py-12 flex flex-col items-center flex-1 justify-center gap-4 min-w-[50vw] h-dvh;
+      @apply px-16 py-12 flex-1 min-w-[50vw] h-dvh;
 
-      .title {
-        @apply text-2xl font-bold mb-2;
-      }
-      .form-button {
-        @apply bg-gradient-to-b from-[#FDD458] to-[#E8BA40] text-sm font-bold text-[#050505];
-      }
-      .already {
-        @apply text-sm font-medium;
+      .form-parent {
+        @apply h-full flex flex-col justify-center gap-4 mx-auto;
 
-        .log {
-          @apply font-bold;
+        .title {
+          @apply text-2xl font-bold my-10 text-white ;
+        }
+
+        .already {
+          @apply text-sm font-medium;
+
+          .log {
+            @apply font-bold;
+          }
         }
       }
     }

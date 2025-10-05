@@ -1,9 +1,8 @@
-"use client"
+import SignupForm from "@/components/SignupForm";
+
 
 const Page = () => {
-    return (
-        <div className={'auth'}></div>
-    );
+    return <SignupForm/>
 };
 
 export default Page;
