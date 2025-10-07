@@ -2,14 +2,14 @@
 
 import {Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form";
 import {useMutation} from "@tanstack/react-query";
-import {FormEvent, useState} from "react";
 import {UseFormReturn} from "react-hook-form"
-import axios from "axios";
 import {Input} from "@/components/ui/input";
-import {authClient} from "@/auth-client";
 import {z} from "zod";
 import {signupSchema} from "@/validation/user";
-import ErrorMessage from "@/components/ErrorMessage";
+import {toast} from "react-toastify";
+import {sendOpt, signup} from "@/utils/cookie";
+import {useEffect} from "react";
+import {AxiosError} from "axios";
 
 type props = {
     form:  UseFormReturn<SignupSchema, any, SignupSchema>
@@ -17,27 +17,26 @@ type props = {
 }
 
 const SignupInputs = ({form, changeStep}: props) => {
-    const [error, setError] = useState('');
-    const {mutate, isPending, isError, data, status} = useMutation({
-        onError: (error) => {
-
+    const {mutate, isPending, data, mutateAsync, failureReason,variables,context } =  useMutation<void, AxiosError, { phoneNumber: string }>({
+        mutationFn:  async (values) => {
+             await sendOpt(values.phoneNumber)
         },
-        mutationFn:  async (e: FormEvent<HTMLFormElement>) => {
-            e.preventDefault();
-
+        onError: (error, variables, onMutateResult, context) => {
+            console.log(error.response?.data)
         }
-    })
+    });
 
     const onSubmit =async (values: z.infer<typeof signupSchema>) => {
-
+             return await mutate(values)
     }
+    useEffect(() => {
 
-    if(isPending) return <div>Loading...</div>
+        console.log(failureReason?.response, failureReason?.status)
+    });
 
     return (
         <>
             <p className={'title'}>Sign Up & Personalize</p>
-            {error && <ErrorMessage>{error}</ErrorMessage>}
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 w-xs text-[#ccc]">
                     <FormField
@@ -95,7 +94,9 @@ const SignupInputs = ({form, changeStep}: props) => {
                             </FormItem>
                         )}
                     />
-                    <button className={'form-btn'} type="submit">Send Code</button>
+                    <button className={'form-btn'} type="submit">{
+                        isPending ? "loading..." : "Send Code"
+                    }</button>
                 </form>
             </Form>
         </>

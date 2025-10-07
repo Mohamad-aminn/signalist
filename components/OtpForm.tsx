@@ -5,6 +5,11 @@ import {UseFormReturn} from "react-hook-form";
 import {authClient} from "@/auth-client";
 import {CircleLoader, MoonLoader} from "react-spinners";
 import {useRouter} from "next/navigation";
+import {z} from "zod";
+import {signupSchema} from "@/validation/user";
+import {useMutation} from "@tanstack/react-query";
+import {toast} from "react-toastify";
+import {signup} from "@/utils/cookie";
 
 type props = {
     form:  UseFormReturn<SignupSchema, any,SignupSchema>
@@ -13,40 +18,34 @@ type props = {
 
 
 const OtpForm = ({form, changeStep}: props) => {
-    const [opt, setOpt] = useState('');
-    const [error, setError] = useState('');
-    const [loading, setLoading] = useState(false);
+    const [otp, setOtp] = useState('');
 
     const router = useRouter()
 
-    const verifyOpt = async () => {
-        try {
-            setLoading(true);
-
-            const res = await authClient.phoneNumber.verify({
-                phoneNumber: '09201370140',
-                code: opt,
-            });
-            console.log(res)
-            if(res.error) {
-                throw Error(res.error.message)
+    const {mutate, isPending} = useMutation({
+        onError: (error) => {
+            if("message" in error.reponse?.data) {
+                return toast.error(error.response.data.message)
             }
-
-            // router.push('/')
-            // update user table update name country and password
-        } catch (err) {
-            console.log(err)
-            setError("something went wrong");
-        } finally {
-            setLoading(false);
+            return toast.error(error.message)
+        },
+        onSuccess: (data) => {
+            console.log(data);
+            router.push("/")
+        },
+        mutationFn:  async (values:SignupSchema) => {
+            await signup({...values, otp})
         }
+    })
 
+    const onSubmit = (values: z.infer<typeof signupSchema>)=> {
+        mutate({...values, opt: otp})
     }
 
     return (
-        <div>
+        <form onSubmit={form.handleSubmit(onSubmit)}>
             <p className={'text-[#ccc] font-semibold mb-2'}>Enter Code</p>
-            <InputOTP containerClassName={'mb-7 text-white'} maxLength={5} onChange={(v) => setOpt(v)}>
+            <InputOTP containerClassName={'mb-7 text-white'} maxLength={5} onChange={(v) => setOtp(v)}>
                 <InputOTPGroup>
                     <InputOTPSlot index={0} />
                     <InputOTPSlot index={1} />
@@ -58,8 +57,8 @@ const OtpForm = ({form, changeStep}: props) => {
                     <InputOTPSlot index={4} />
                 </InputOTPGroup>
             </InputOTP>
-            <button onClick={verifyOpt} disabled={loading} className={'form-btn'}>
-                {loading ?
+            <button type={'submit'} disabled={isPending} className={'form-btn'}>
+                {isPending ?
                     <CircleLoader
                         size={15}
                         loading={true}
@@ -67,7 +66,7 @@ const OtpForm = ({form, changeStep}: props) => {
                         :
                     'Verify'}
             </button>
-        </div>
+        </form>
 
     );
 };
