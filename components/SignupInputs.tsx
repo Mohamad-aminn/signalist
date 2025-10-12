@@ -7,7 +7,7 @@ import {Input} from "@/components/ui/input";
 import {z} from "zod";
 import {signupSchema} from "@/validation/user";
 import {toast} from "react-toastify";
-import {sendOpt, signup} from "@/utils/cookie";
+import {sendOpt, signup} from "@/utils/userActions";
 import {useEffect} from "react";
 import axios, {AxiosError} from "axios";
 

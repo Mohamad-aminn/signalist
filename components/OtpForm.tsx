@@ -2,15 +2,14 @@
 import {InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot} from "@/components/ui/input-otp";
 import {useState} from "react";
 import {UseFormReturn} from "react-hook-form";
-import {authClient} from "@/auth-client";
-import {CircleLoader, MoonLoader} from "react-spinners";
+import {CircleLoader} from "react-spinners";
 import {useRouter} from "next/navigation";
 import {z} from "zod";
 import {signupSchema} from "@/validation/user";
 import {useMutation} from "@tanstack/react-query";
 import {toast} from "react-toastify";
-import {setCookie, signup} from "@/utils/cookie";
-import {setCookieServer} from "@/utils/cookies";
+import {signup} from "@/utils/userActions";
+import {setCookieServer} from "@/utils/serverActions";
 import axios from "axios";
 
 type props = {

@@ -1,4 +1,4 @@
-'use clientadd'
+'use client'
 import React, { useEffect, useRef, memo } from 'react';
 
 function TradingViewWidget() {
@@ -26,7 +26,7 @@ function TradingViewWidget() {
     );
 
     return (
-        <div className="tradingview-widget-container" ref={container}>
+        <div className="top-stories" ref={container}>
             <div className="tradingview-widget-container__widget"></div>
             <div className="tradingview-widget-copyright"><a href="https://www.tradingview.com/news/top-providers/tradingview/" rel="noopener nofollow" target="_blank"><span className="blue-text">Top stories</span></a><span className="trademark"> by TradingView</span></div>
         </div>
