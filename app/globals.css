@@ -190,27 +190,30 @@
     @apply flex flex-col min-h-dvh;
 
     .navbar {
-      @apply bg-[#141414] h-40;
+      @apply bg-[#141414];
 
       .nav-container {
-        @apply flex justify-between items-center py-5;
+        @apply flex justify-between items-center container mx-auto py-5;
 
         .nav-links {
-          @apply flex items-center justify-center gap-4;
+          @apply flex items-center justify-center gap-6;
 
           .nav-link {
-            @apply text-base text-[#9095A1] font-medium capitalize;
+            @apply text-base font-medium transition-colors hover:text-[#00BCD4] capitalize;
           }
 
-          .nav-utils {
-            @apply flex items-center gap-1.5;
+        }
+        .nav-utils {
+          @apply flex items-center gap-1.5;
 
-            .utils-profile {
-              @apply size-6 rounded-full object-center;
-            }
-            .utils-username {
-              @apply text-base text-white font-medium capitalize;
-            }
+          .utils-profile {
+            @apply size-6 rounded-full object-center;
+          }
+          .utils-username {
+            @apply text-base text-white font-medium capitalize;
+          }
+          .utils-signup {
+            @apply px-6 py-2 cursor-pointer rounded-lg border border-white/50 bg-transparent text-white;
           }
         }
       }
