@@ -223,19 +223,19 @@
       @apply bg-[#050505] flex-1 py-10;
 
       .charts-container {
-        @apply container items-center justify-center mx-auto grid grid-cols-3 grid-rows-2 gap-16 flex-1 size-full;
+        @apply container items-center justify-center mx-auto grid grid-cols-3 grid-rows-2 flex-1 gap-y-10 size-full;
 
         .market-overview {
-          @apply col-span-1 relative size-full;
+          @apply col-span-1;
         }
         .stockheat {
-          @apply col-span-2 relative size-full;
+          @apply col-span-2 row-span-1 size-full;
         }
         .topStories {
-          @apply col-span-1 relative size-full;
+          @apply col-span-1 size-full;
         }
         .market-data {
-          @apply col-span-2 relative size-full;
+          @apply col-span-2 row-span-1 size-full;
         }
       }
     }

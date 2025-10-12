@@ -7,14 +7,10 @@ const Page = () => {
     return (
         <div className={'dashboard'}>
             <div className={'charts-container'}>
-                <div className={'size-48 rounded-md col-span-1 bg-gray-500'}></div>
-                <div className={'size-48 rounded-md col-span-2 bg-gray-500'}></div>
-                <div className={'size-48 rounded-md col-span-1 bg-gray-500'}></div>
-                <div className={'size-48 rounded-md col-span-2 bg-gray-500'}></div>
-                {/*<MarketOverview/>*/}
-                {/*<StockHeatMap/>*/}
-                {/*<TopStories/>*/}
-                {/*<MarketData/>*/}
+                <MarketOverview/>
+                <StockHeatMap/>
+                <TopStories/>
+                <MarketData/>
             </div>
         </div>
     );

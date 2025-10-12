@@ -35,8 +35,8 @@ function TradingViewWidget() {
 
     return (
         <div className="stockheat" ref={container}>
-            <div className="tradingview-widget-container__widget"></div>
-            <div className="tradingview-widget-copyright"><a href="https://www.tradingview.com/heatmap/stock/" rel="noopener nofollow" target="_blank"><span className="blue-text">Stock Heatmap</span></a><span className="trademark"> by TradingView</span></div>
+            {/*<div className="tradingview-widget-container__widget"></div>*/}
+            {/*<div className="tradingview-widget-copyright"><a href="https://www.tradingview.com/heatmap/stock/" rel="noopener nofollow" target="_blank"><span className="blue-text">Stock Heatmap</span></a><span className="trademark"> by TradingView</span></div>*/}
         </div>
     );
 }
