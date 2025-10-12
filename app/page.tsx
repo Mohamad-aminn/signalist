@@ -1,4 +1,4 @@
-import {getUser} from "@/utils/cookie";
+import {getUser} from "@/utils/cookies";
 
 export default async function Home() {
 

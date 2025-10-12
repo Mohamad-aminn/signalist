@@ -9,7 +9,7 @@ import {signupSchema} from "@/validation/user";
 import {toast} from "react-toastify";
 import {sendOpt, signup} from "@/utils/cookie";
 import {useEffect} from "react";
-import {AxiosError} from "axios";
+import axios, {AxiosError} from "axios";
 
 type props = {
     form:  UseFormReturn<SignupSchema, any, SignupSchema>
@@ -17,22 +17,34 @@ type props = {
 }
 
 const SignupInputs = ({form, changeStep}: props) => {
-    const {mutate, isPending, data, mutateAsync, failureReason,variables,context } =  useMutation<void, AxiosError, { phoneNumber: string }>({
+    const {mutate, isPending } =  useMutation<void, AxiosError, { phoneNumber: string }>({
         mutationFn:  async (values) => {
              await sendOpt(values.phoneNumber)
         },
         onError: (error, variables, onMutateResult, context) => {
-            console.log(error.response?.data)
+            if (axios.isAxiosError(error)) {
+            const data = error.response?.data;
+
+            // If your API always returns { message: string }
+            if (typeof data === 'object' && data && 'message' in data && typeof data.message === 'string') {
+                return toast.error(data.message ?? error.response?.statusText);
+            }
+
+            // fallback for status or unknown shape
+            return toast.error(error.response?.statusText ?? 'Unexpected error');
+        }
+
+            toast.error('Unexpected error');
+        },
+        onSuccess: (data) => {
+            toast.info('code has been sent!');
+            changeStep(1)
         }
     });
 
     const onSubmit =async (values: z.infer<typeof signupSchema>) => {
              return await mutate(values)
     }
-    useEffect(() => {
-
-        console.log(failureReason?.response, failureReason?.status)
-    });
 
     return (
         <>
