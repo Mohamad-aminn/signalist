@@ -1,13 +1,12 @@
-import {getUser} from "@/utils/serverActions";
 import Image from "next/image";
 import {navLinks} from "@/utils/constants";
 import Link from "next/link";
 import ClintLink from "@/components/ClintLink";
-
+import NavbarUser from "@/components/NavbarUser";
+import {Suspense} from "react";
 
 const Navbar = async () => {
-    const user = await getUser();
-    console.log(user)
+
 
     return (
         <nav className={'navbar'}>
@@ -22,18 +21,9 @@ const Navbar = async () => {
                         <ClintLink key={i} {...link} />
                     ))}
                 </div>
-                <div className={'nav-utils'}>
-                    {user ?
-                        <>
-                            <Image src={user.image} alt={'user image'}
-                                   width={24} height={24} className={'utils-profile'}/>
-
-                            <div className={'utils-username'}>{user?.name}</div>
-                        </>
-                         :
-                        <Link href={'/signup'} className={'utils-signup'}>Sign In</Link>
-                    }
-                </div>
+                    <Suspense fallback={<div>loading...</div>}>
+                        <NavbarUser/>
+                    </Suspense>
             </div>
 
         </nav>

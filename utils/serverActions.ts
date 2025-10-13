@@ -3,11 +3,12 @@
 import {cookies} from "next/headers";
 import {ResponseCookie} from "next/dist/compiled/@edge-runtime/cookies";
 import axios from "axios";
+import {redirect, RedirectType} from "next/navigation";
 
 export const setCookieServer = async (cookieOptions:ResponseCookie ) => {
     const cookieStore = await cookies()
 
-    cookieStore.set({
+    return cookieStore.set({
        ...cookieOptions,
         httpOnly: true,
     })
@@ -20,9 +21,10 @@ export const getCookieServer = async (name:string) => {
 }
 
 export const getUser = async () => {
-    try {
         const cookieStore = await cookies();
         const token = cookieStore.get('access_token');
+
+        if(!token) return ;
 
         const headers = {
             'Content-Type': 'application/json',
@@ -33,14 +35,27 @@ export const getUser = async () => {
             withCredentials: true
         })
 
-        if(res.status === 200) {
-            // returning user data
-            return res.data
-        }
-    } catch (error) {
-        throw error;
-    }
-
-
-
+        return res
 }
+
+export const refreshUserToken = async () => {
+    try {
+        const cookieStore = await cookies()
+        const refreshToken = cookieStore.get("refresh_token")
+
+        if(!refreshToken) return redirect('/signup', RedirectType.replace);
+
+        const res = await axios.get('http://127.0.0.1:5000/auth/refresh', {
+            headers: {
+                "Content-Type": "application/json",
+                "x_token": refreshToken.value,
+            }
+        })
+
+        return res
+    }catch (err) {
+        console.log(err)
+    }
+}
+
+export const sleep = async (ms:number) => new Promise(resolve => setTimeout(resolve, ms));

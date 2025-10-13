@@ -3,7 +3,7 @@ import StockHeatMap from "@/components/charts/StockHeatMap";
 import TopStories from "@/components/charts/TopStories";
 import MarketData from "@/components/charts/MarketData";
 
-const Page = () => {
+const Page = async () => {
     return (
         <div className={'dashboard'}>
             <div className={'charts-container'}>
