@@ -6,7 +6,7 @@ const NavbarUser = async () => {
     const res = await getUser();
 
     return (
-        <div className={'nav-utils'}>
+        <div className={'nav-utils from-opacity'}>
             {res ?
                 <>
                     <Image src={res.data.image} alt={'user image'}

@@ -4,6 +4,7 @@ import Link from "next/link";
 import ClintLink from "@/components/ClintLink";
 import NavbarUser from "@/components/NavbarUser";
 import {Suspense} from "react";
+import UserSkeleton from "@/components/skeletons/UserSkeleton";
 
 const Navbar = async () => {
 
@@ -21,7 +22,7 @@ const Navbar = async () => {
                         <ClintLink key={i} {...link} />
                     ))}
                 </div>
-                    <Suspense fallback={<div>loading...</div>}>
+                    <Suspense fallback={<UserSkeleton/>}>
                         <NavbarUser/>
                     </Suspense>
             </div>
