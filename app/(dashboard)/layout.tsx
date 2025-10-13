@@ -5,7 +5,10 @@ const Layout = ({children}: Readonly<{ children:ReactNode }>) => {
     return (
         <section className={'dashboard-sec'}>
             <Navbar/>
-            {children}
+            <div className={'dashboard'}>
+                {children}
+            </div>
+
         </section>
     );
 };

@@ -16,7 +16,7 @@ function TradingViewWidget() {
           "colorTheme": "dark",
           "isTransparent": false,
           "locale": "en",
-          "width": 400,
+          "width": 425,
           "height": 550
         }`;
             container.current?.appendChild(script);
@@ -25,9 +25,8 @@ function TradingViewWidget() {
     );
 
     return (
-        <div className="tradingview-widget-container" ref={container}>
+        <div className="tradingview-widget-container company-profile" ref={container}>
             <div className="tradingview-widget-container__widget"></div>
-            <div className="tradingview-widget-copyright"><a href="https://www.tradingview.com/symbols/NASDAQ-AAPL/" rel="noopener nofollow" target="_blank"><span className="blue-text">AAPL performance</span></a><span className="trademark"> by TradingView</span></div>
         </div>
     );
 }

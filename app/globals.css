@@ -222,7 +222,7 @@
 
     .dashboard {
       @apply bg-[#050505] flex-1 py-10;
-
+      /* dashboard route */
       .charts-container {
         @apply container items-center justify-center mx-auto grid grid-cols-3 grid-rows-2 flex-1 gap-y-10 size-full;
 
@@ -239,8 +239,40 @@
           @apply col-span-2 row-span-1 size-full;
         }
       }
+      /* dashboard --> stock */
+      .stock {
+        @apply relative container mx-auto justify-center gap-x-10 flex-1 grid grid-cols-3 grid-rows-2 gap-y-10 size-full;
+
+        .first-section {
+          @apply col-span-2;
+
+          .symbol-overview {
+            @apply size-full mb-8;
+          }
+          .advanced-chart {
+            @apply size-full mb-8;
+          }
+          .symbol-info {
+            @apply size-full mb-8;
+          }
+        }
+        .second-section {
+          @apply relative;
+            .technical-analysis {
+              @apply size-full mb-8;
+            }
+            .company-profile {
+              @apply size-full mb-8;
+            }
+            .fundamental {
+              @apply size-full mb-8;
+            }
+          }
+      }
     }
   }
+
+
 
   /* default classes */
   .container {

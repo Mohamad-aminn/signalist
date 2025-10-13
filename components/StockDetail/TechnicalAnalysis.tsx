@@ -29,9 +29,8 @@ function TradingViewWidget() {
     );
 
     return (
-        <div className="tradingview-widget-container" ref={container}>
+        <div className="tradingview-widget-container technical-analysis" ref={container}>
             <div className="tradingview-widget-container__widget"></div>
-            <div className="tradingview-widget-copyright"><a href="https://www.tradingview.com/symbols/NASDAQ-AAPL/technicals/" rel="noopener nofollow" target="_blank"><span className="blue-text">AAPL stock analysis</span></a><span className="trademark"> by TradingView</span></div>
         </div>
     );
 }

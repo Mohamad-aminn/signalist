@@ -5,14 +5,12 @@ import MarketData from "@/components/charts/MarketData";
 
 const Page = async () => {
     return (
-        <div className={'dashboard'}>
             <div className={'charts-container'}>
                 <MarketOverview/>
                 <StockHeatMap/>
                 <TopStories/>
                 <MarketData/>
             </div>
-        </div>
     );
 };
 
