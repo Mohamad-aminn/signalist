@@ -1,3 +1,4 @@
+"use client"
 import Image from "next/image";
 import {navLinks} from "@/utils/constants";
 import Link from "next/link";
@@ -21,6 +22,7 @@ const Navbar = async () => {
                     {navLinks.map((link, i) => (
                         <ClintLink key={i} {...link} />
                     ))}
+                    <button onClick={() => document.getElementById('search')!.showModal()}>search</button>
                 </div>
                     <Suspense fallback={<UserSkeleton/>}>
                         <NavbarUser/>

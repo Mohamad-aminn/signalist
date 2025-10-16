@@ -3,8 +3,13 @@ import Image from "next/image";
 import Link from "next/link";
 
 const NavbarUser = async () => {
-    const res = await getUser();
-
+    // const res = await getUser();
+    const res = {
+        data:{
+            name: 'ur mom',
+            image: ''
+        }
+    }
     return (
         <div className={'nav-utils from-opacity'}>
             {res ?

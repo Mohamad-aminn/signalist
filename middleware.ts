@@ -51,27 +51,27 @@ export async function middleware(req: NextRequest) {
             // not authenticated
             return NextResponse.redirect(new URL("/signup", req.url))
         }
-        if(refreshToken && !accessToken) {
-            console.log('step 3')
-            // refresh user tokens
-            const response = await refreshUserToken();
-            if(response?.status === 200) {
-                res.cookies.set({
-                    name: 'access_token',
-                    value: response.data.accessToken,
-                    maxAge: 60 * 60 * 24,
-                    httpOnly: true
-                });
-                res.cookies.set({
-                    name: 'refresh_token',
-                    value: response.data.refreshToken,
-                    maxAge: 60 * 60 * 24 * 7,
-                    httpOnly: true
-                })
-                return res
-            }
-
-        }
+        // if(refreshToken && !accessToken) {
+        //     console.log('step 3')
+        //     // refresh user tokens
+        //     const response = await refreshUserToken();
+        //     if(response?.status === 200) {
+        //         res.cookies.set({
+        //             name: 'access_token',
+        //             value: response.data.accessToken,
+        //             maxAge: 60 * 60 * 24,
+        //             httpOnly: true
+        //         });
+        //         res.cookies.set({
+        //             name: 'refresh_token',
+        //             value: response.data.refreshToken,
+        //             maxAge: 60 * 60 * 24 * 7,
+        //             httpOnly: true
+        //         })
+        //         return res
+        //     }
+        //
+        // }
     }
 }
 
