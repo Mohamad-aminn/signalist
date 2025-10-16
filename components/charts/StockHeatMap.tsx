@@ -28,6 +28,7 @@ function TradingViewWidget() {
           "width": "100%",
           "height": "100%"
         }`;
+            console.log(script)
             container.current?.appendChild(script);
         },
         []
