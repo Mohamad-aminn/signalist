@@ -45,7 +45,7 @@ export async function middleware(req: NextRequest) {
 
     const refreshToken = cookieStore.get('refresh_token')
     const accessToken = cookieStore.get('access_token')
-    console.log(accessToken, refreshToken)
+
     if (pathname.startsWith('/dashboard')) {
         if (!refreshToken && !accessToken) {
             // not authenticated
@@ -55,16 +55,21 @@ export async function middleware(req: NextRequest) {
             console.log('step 3')
             // refresh user tokens
             const response = await refreshUserToken();
+
+            if(response?.status !== 200) {
+                return NextResponse.redirect(new URL("/signup", req.url))
+            }
             if(response?.status === 200) {
+                const data = await response.json()
                 res.cookies.set({
                     name: 'access_token',
-                    value: response.data.accessToken,
+                    value: data.accessToken,
                     maxAge: 60 * 60 * 24,
                     httpOnly: true
                 });
                 res.cookies.set({
                     name: 'refresh_token',
-                    value: response.data.refreshToken,
+                    value: data.refreshToken,
                     maxAge: 60 * 60 * 24 * 7,
                     httpOnly: true
                 })

@@ -42,7 +42,7 @@ export const refreshUserToken = async () => {
 
         if(!refreshToken) return redirect('/signup', RedirectType.replace);
 
-        const res = await axios.get('http://127.0.0.1:5000/auth/refresh', {
+        const res = await fetch('http://127.0.0.1:5000/auth/refresh', {
             headers: {
                 "Content-Type": "application/json",
                 "x_token": refreshToken.value,
