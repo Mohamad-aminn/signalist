@@ -1,4 +1,4 @@
-"use client"
+
 import Image from "next/image";
 import {navLinks} from "@/utils/constants";
 import Link from "next/link";
@@ -6,6 +6,7 @@ import ClintLink from "@/components/ClintLink";
 import NavbarUser from "@/components/NavbarUser";
 import {Suspense} from "react";
 import UserSkeleton from "@/components/skeletons/UserSkeleton";
+import SearchLink from "@/components/SearchLink";
 
 const Navbar = () => {
 
@@ -22,6 +23,7 @@ const Navbar = () => {
                     {navLinks.map((link, i) => (
                         <ClintLink key={i} {...link} />
                     ))}
+                    <SearchLink/>
                 </div>
                     <Suspense fallback={<UserSkeleton/>}>
                         <NavbarUser/>

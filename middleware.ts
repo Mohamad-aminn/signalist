@@ -45,7 +45,7 @@ export async function middleware(req: NextRequest) {
 
     const refreshToken = cookieStore.get('refresh_token')
     const accessToken = cookieStore.get('access_token')
-
+    console.log(accessToken, refreshToken)
     if (pathname.startsWith('/dashboard')) {
         if (!refreshToken && !accessToken) {
             // not authenticated
