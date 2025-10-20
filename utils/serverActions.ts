@@ -8,10 +8,7 @@ import {redirect, RedirectType} from "next/navigation";
 export const setCookieServer = async (cookieOptions:ResponseCookie ) => {
     const cookieStore = await cookies()
 
-    return cookieStore.set({
-       ...cookieOptions,
-        httpOnly: true,
-    })
+    cookieStore.set(cookieOptions)
 }
 
 export const getCookieServer = async (name:string) => {

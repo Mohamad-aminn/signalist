@@ -1,6 +1,6 @@
 "use client"
 import {InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot} from "@/components/ui/input-otp";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {UseFormReturn} from "react-hook-form";
 import {CircleLoader} from "react-spinners";
 import {useRouter} from "next/navigation";
@@ -23,8 +23,8 @@ const OtpForm = ({form, changeStep}: props) => {
 
     const router = useRouter()
 
-    const {mutate, isPending} = useMutation({
-        onError: (error) => {
+    const {mutate, isPending, status, isSuccess} = useMutation({
+        onError: async (error) => {
             console.log(error)
             if (axios.isAxiosError(error)) {
                 const data = error.response?.data;
@@ -41,20 +41,31 @@ const OtpForm = ({form, changeStep}: props) => {
             toast.error('Unexpected error');
         },
         onSuccess: async (data) => {
-            console.log(data)
-            await setCookieServer({name: 'access_token', value: data.accessToken, maxAge: 60 * 60 * 24});
-            await setCookieServer({name: 'refresh_token', value: data.refreshToken, maxAge: 60 * 60 * 24 * 14});
+             await setCookieServer({
+                 name: "access_token",
+                 value: data.accessToken,
+                 httpOnly: true
+             });
 
-            router.push("/")
+            await setCookieServer({
+                name: "refresh_token",
+                value: data.refreshToken,
+                httpOnly: true
+            });
+
+           return router.push("/dashboard")
         },
         mutationFn:  async (values:SignupSchema) => {
-            return await signup({...values, otp})
+             return await signup({...values, otp})
         }
     })
 
     const onSubmit = (values: z.infer<typeof signupSchema>)=> {
-        return mutate(values)
+         return  mutate(values)
     }
+    useEffect(() => {
+        console.log(isSuccess)
+    })
 
     return (
         <>

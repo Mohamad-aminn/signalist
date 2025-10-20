@@ -7,7 +7,7 @@ import NavbarUser from "@/components/NavbarUser";
 import {Suspense} from "react";
 import UserSkeleton from "@/components/skeletons/UserSkeleton";
 
-const Navbar = async () => {
+const Navbar = () => {
 
 
     return (
@@ -22,7 +22,6 @@ const Navbar = async () => {
                     {navLinks.map((link, i) => (
                         <ClintLink key={i} {...link} />
                     ))}
-                    <button onClick={() => document.getElementById('search')!.showModal()}>search</button>
                 </div>
                     <Suspense fallback={<UserSkeleton/>}>
                         <NavbarUser/>
