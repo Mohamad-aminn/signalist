@@ -1,0 +1,10 @@
+name: some-name
+
+on:
+  the-on:
+
+jobs:
+  job-1:
+    runs-on: ubuntu 24.02
+    steps:
+      - run: echo "Hello"

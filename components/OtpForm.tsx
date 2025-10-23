@@ -1,15 +1,16 @@
 "use client"
 import {InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot} from "@/components/ui/input-otp";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {UseFormReturn} from "react-hook-form";
-import {authClient} from "@/auth-client";
-import {CircleLoader, MoonLoader} from "react-spinners";
+import {CircleLoader} from "react-spinners";
 import {useRouter} from "next/navigation";
 import {z} from "zod";
 import {signupSchema} from "@/validation/user";
 import {useMutation} from "@tanstack/react-query";
 import {toast} from "react-toastify";
-import {signup} from "@/utils/cookie";
+import {signup} from "@/utils/userActions";
+import {setCookieServer} from "@/utils/serverActions";
+import axios from "axios";
 
 type props = {
     form:  UseFormReturn<SignupSchema, any,SignupSchema>
@@ -22,52 +23,80 @@ const OtpForm = ({form, changeStep}: props) => {
 
     const router = useRouter()
 
-    const {mutate, isPending} = useMutation({
-        onError: (error) => {
-            if("message" in error.reponse?.data) {
-                return toast.error(error.response.data.message)
+    const {mutate, isPending, status, isSuccess} = useMutation({
+        onError: async (error) => {
+            console.log(error)
+            if (axios.isAxiosError(error)) {
+                const data = error.response?.data;
+
+                // If your API always returns { message: string }
+                if (typeof data === 'object' && data && 'message' in data && typeof data.message === 'string') {
+                    return toast.error(data.message ?? error.response?.statusText);
+                }
+
+                // fallback for status or unknown shape
+                return toast.error(error.response?.statusText ?? 'Unexpected error');
             }
-            return toast.error(error.message)
+
+            toast.error('Unexpected error');
         },
-        onSuccess: (data) => {
-            console.log(data);
-            router.push("/")
+        onSuccess: async (data) => {
+             await setCookieServer({
+                 name: "access_token",
+                 value: data.accessToken,
+                 httpOnly: true
+             });
+
+            await setCookieServer({
+                name: "refresh_token",
+                value: data.refreshToken,
+                httpOnly: true
+            });
+
+           return router.push("/dashboard")
         },
         mutationFn:  async (values:SignupSchema) => {
-            await signup({...values, otp})
+             return await signup({...values, otp})
         }
     })
 
     const onSubmit = (values: z.infer<typeof signupSchema>)=> {
-        mutate({...values, opt: otp})
+         return  mutate(values)
     }
+    useEffect(() => {
+        console.log(isSuccess)
+    })
 
     return (
-        <form onSubmit={form.handleSubmit(onSubmit)}>
-            <p className={'text-[#ccc] font-semibold mb-2'}>Enter Code</p>
-            <InputOTP containerClassName={'mb-7 text-white'} maxLength={5} onChange={(v) => setOtp(v)}>
-                <InputOTPGroup>
-                    <InputOTPSlot index={0} />
-                    <InputOTPSlot index={1} />
-                    <InputOTPSlot index={2} />
-                </InputOTPGroup>
-                <InputOTPSeparator />
-                <InputOTPGroup>
-                    <InputOTPSlot index={3} />
-                    <InputOTPSlot index={4} />
-                </InputOTPGroup>
-            </InputOTP>
-            <button type={'submit'} disabled={isPending} className={'form-btn'}>
-                {isPending ?
-                    <CircleLoader
-                        size={15}
-                        loading={true}
-                    />
+        <>
+            <button
+                onClick={() => changeStep(0)}
+                className={'rounded-lg flex items-center justify-center pb-1.5 font-bold bg-white size-8 text-2xl text-start cursor-pointer'}>&#x2190;</button>
+            <form onSubmit={form.handleSubmit(onSubmit)}>
+                <p className={'text-[#ccc] font-semibold mb-2'}>Enter Code</p>
+                <InputOTP containerClassName={'mb-7 text-white'} maxLength={5} onChange={(v) => setOtp(v)}>
+                    <InputOTPGroup>
+                        <InputOTPSlot index={0} />
+                        <InputOTPSlot index={1} />
+                        <InputOTPSlot index={2} />
+                    </InputOTPGroup>
+                    <InputOTPSeparator />
+                    <InputOTPGroup>
+                        <InputOTPSlot index={3} />
+                        <InputOTPSlot index={4} />
+                    </InputOTPGroup>
+                </InputOTP>
+                <button type={'submit'} disabled={isPending} className={'form-btn'}>
+                    {isPending ?
+                        <CircleLoader
+                            size={15}
+                            loading={true}
+                        />
                         :
-                    'Verify'}
-            </button>
-        </form>
-
+                        'Verify'}
+                </button>
+            </form>
+        </>
     );
 };
 

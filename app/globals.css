@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "tw-animate-css";
+@plugin "daisyui";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -185,6 +186,92 @@
       }
     }
   }
+
+  .dashboard-sec {
+    @apply flex flex-col min-h-dvh;
+
+    .navbar {
+      @apply bg-[#141414];
+
+      .nav-container {
+        @apply flex justify-between items-center container mx-auto py-5;
+
+        .nav-links {
+          @apply flex items-center justify-center gap-6;
+
+          .nav-link {
+            @apply text-base font-medium transition-colors hover:text-[#00BCD4] capitalize;
+          }
+
+        }
+        .nav-utils {
+          @apply flex items-center gap-1.5;
+
+          .utils-profile {
+            @apply size-6 rounded-full object-center;
+          }
+          .utils-username {
+            @apply text-base text-white font-medium capitalize;
+          }
+          .utils-signup {
+            @apply px-6 py-2 cursor-pointer rounded-lg border border-white/50 bg-transparent text-white;
+          }
+        }
+      }
+    }
+
+    .dashboard {
+      @apply bg-[#050505] flex-1 py-10;
+      /* dashboard route */
+      .charts-container {
+        @apply container items-center justify-center mx-auto grid grid-cols-3 grid-rows-2 flex-1 gap-y-10 size-full;
+
+        .market-overview {
+          @apply col-span-1;
+        }
+        .stockheat {
+          @apply col-span-2 row-span-1 size-full;
+        }
+        .topStories {
+          @apply col-span-1 size-full;
+        }
+        .market-data {
+          @apply col-span-2 row-span-1 size-full;
+        }
+      }
+      /* dashboard --> stock */
+      .stock {
+        @apply relative container mx-auto justify-center gap-x-10 flex-1 grid grid-cols-3 grid-rows-2 gap-y-10 size-full;
+
+        .first-section {
+          @apply col-span-2;
+
+          .symbol-overview {
+            @apply size-full mb-8;
+          }
+          .advanced-chart {
+            @apply size-full mb-8;
+          }
+          .symbol-info {
+            @apply size-full mb-8;
+          }
+        }
+        .second-section {
+          @apply relative;
+            .technical-analysis {
+              @apply size-full mb-8;
+            }
+            .company-profile {
+              @apply size-full mb-8;
+            }
+            .fundamental {
+              @apply size-full mb-8;
+            }
+          }
+      }
+    }
+  }
+
 
   /* default classes */
   .container {
@@ -542,4 +629,26 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+.search {
+  /* From https://css.glass */
+  background: rgba(0, 0, 0, 0.7);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(40px);
+  -webkit-backdrop-filter: blur(40px);
+}
+
+.from-opacity {
+  opacity: 0;
+  animation: opacity 0.2s both;
+}
+
+@keyframes opacity {
+  0% {
+    opacity: 0;
+  } 100% {
+  opacity: 1;
+      }
 }
